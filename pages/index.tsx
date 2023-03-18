@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from 'next/image'
 import { useState, FormEvent } from "react";
 
 export default function Home() {
@@ -78,7 +79,19 @@ export default function Home() {
             )}
             </button>
           </div>
-          <div className="mt-10 p-4 bg-red-50 rounded-lg">{result || 'Pleas tell me what did you do today.'}</div>
+          <div className="mt-5">
+            <Image
+              src="/cheer-leader.jpg"
+              alt="Cheer leader"
+              width={100}
+              height={100}
+              className="rounded-full border-4 border-red-50"
+              priority
+            />
+            <div className="mt-3 p-4 bg-red-50 relative rounded-lg before:content-[''] before:absolute before:-top-4 before:left-10 before:border-8 before:border-transparent before:border-b-8 before:border-b-red-50">
+              {result || 'Pleas tell me what did you do today.'}
+            </div>
+          </div>
         </form>
       </main>
     </>

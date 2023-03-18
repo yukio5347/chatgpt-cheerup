@@ -3,10 +3,12 @@ import { useState, FormEvent } from "react";
 
 export default function Home() {
   const [message, setMessage] = useState('');
-  const [result, setResult] = useState('Pleas tell me what did you do today.');
+  const [result, setResult] = useState('');
+  const [processing, setProcessing] = useState(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setProcessing(true);
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -50,22 +52,33 @@ export default function Home() {
               id="text"
               type="text"
               name="message"
-              className="flex-auto bg-gray-50 border border-r-0 rounded-l-md focus:ring-sky-500 focus:border-sky-500 block w-full px-3 py-2"
+              className={'flex-auto bg-gray-50 border border-r-0 rounded-l-md focus:ring-sky-500 focus:border-sky-500 block w-full px-3 py-2' + (processing ? ' cursor-not-allowed' : '')}
               placeholder="e.g. I ate sushi 🍣"
               maxLength={100}
               required
               autoFocus
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              disabled={processing}
             />
             <button
               type="submit"
-              className="flex-none text-white bg-sky-500 transition-colors hover:bg-sky-600 focus:ring-2 focus:outline-none focus:ring-sky-300 font-medium rounded-r-md text-sm sm:w-auto px-3 py-2 text-center"
+              className={'flex-none w-24 text-white transition-colors focus:ring-2 focus:outline-none font-medium rounded-r-md text-sm text-center ' + (processing ? 'bg-sky-300 cursor-not-allowed' : 'bg-sky-500 hover:bg-sky-600 focus:ring-sky-300')}
+              disabled={processing}
             >
-              Cheer Up!
+            {result ? (
+              <span className="text-xl">🎉</span>
+            ) : processing ? (
+              <svg className="animate-spin h-5 w-5 m-auto text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            ) : (
+              <span className="py-2">Cheer Up!</span>
+            )}
             </button>
           </div>
-          <div className="mt-10 p-4 bg-red-50 rounded-lg">{result}</div>
+          <div className="mt-10 p-4 bg-red-50 rounded-lg">{result || 'Pleas tell me what did you do today.'}</div>
         </form>
       </main>
     </>

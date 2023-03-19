@@ -7,6 +7,7 @@ export default function Home() {
   const [result, setResult] = useState('');
   const [processing, setProcessing] = useState(false);
   const [english, setEnglish] = useState(true);
+  const label = english ? 'What did you do today?' : '今日は何をしましたか？';
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,16 +73,14 @@ export default function Home() {
           </button>
         </div>
         <form onSubmit={onSubmit}>
-          <label htmlFor="text" className="block mb-2 font-medium">
-            {english ? 'What did you do today?' : '今日は何をしましたか？'}
-          </label>
+          <label htmlFor="text" className="block mb-2 font-medium">{label}</label>
           <div className="flex justify-between">
             <input
               id="text"
               type="text"
               name="message"
               className={'flex-auto bg-gray-50 border border-r-0 rounded-l-md focus:ring-sky-500 focus:border-sky-500 block w-full px-3 py-2' + (processing ? ' cursor-not-allowed' : '')}
-              placeholder={english ? 'e.g. I ate sushi 🍣' : 'お寿司を食べました 🍣'}
+              placeholder={english ? 'e.g. Took a nap 😪' : '昼寝しました 😪'}
               maxLength={100}
               required
               autoFocus
@@ -116,7 +115,7 @@ export default function Home() {
               priority
             />
             <div className="mt-3 p-4 bg-red-50 relative rounded-lg before:content-[''] before:absolute before:-top-4 before:left-10 before:border-8 before:border-transparent before:border-b-8 before:border-b-red-50">
-              {result || (english ? 'Tell me what did you do today.' : '今日はどんなことをしたの？')}
+              {result || label}
             </div>
           </div>
         </form>

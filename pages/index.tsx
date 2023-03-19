@@ -45,7 +45,7 @@ export default function Home() {
           content="This is an application to cheer you up using with ChatGPT API!"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="my-5 p-5 max-w-screen-md m-auto text-gray-700">
         <div className="text-right">

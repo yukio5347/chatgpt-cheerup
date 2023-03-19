@@ -18,7 +18,7 @@ cd chatgpt-cheerup
 
 #### Install packages
 ```
-npm ci
+npm install
 ```
 
 #### Setup the .env file

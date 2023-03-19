@@ -6,6 +6,7 @@ export default function Home() {
   const [message, setMessage] = useState('');
   const [result, setResult] = useState('');
   const [processing, setProcessing] = useState(false);
+  const [english, setEnglish] = useState(true);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -16,7 +17,10 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: message }),
+        body: JSON.stringify({
+          message: message,
+          english: english,
+        }),
       });
 
       const data = await response.json();
@@ -38,15 +42,38 @@ export default function Home() {
         <title>Cheer Up by ChatGPT</title>
         <meta
           name="description"
-          content="This is ChatGPT application to cheer up you."
+          content="This is an application to cheer you up using with ChatGPT API!"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="my-10 p-5 max-w-screen-md m-auto text-gray-700">
+      <main className="my-5 p-5 max-w-screen-md m-auto text-gray-700">
+        <div className="text-right">
+          <button onClick={() => (setEnglish(!english))}>
+            {english ? (
+              <Image
+                src="/ja.png"
+                alt="Japanese"
+                width={25}
+                height={25}
+                className=""
+                priority
+              />
+            ) : (
+              <Image
+                src="/en.png"
+                alt="English"
+                width={25}
+                height={25}
+                className=""
+                priority
+              />
+            )}
+          </button>
+        </div>
         <form onSubmit={onSubmit}>
           <label htmlFor="text" className="block mb-2 font-medium">
-            What did you do today?
+            {english ? 'What did you do today?' : '今日は何をしましたか？'}
           </label>
           <div className="flex justify-between">
             <input
@@ -54,7 +81,7 @@ export default function Home() {
               type="text"
               name="message"
               className={'flex-auto bg-gray-50 border border-r-0 rounded-l-md focus:ring-sky-500 focus:border-sky-500 block w-full px-3 py-2' + (processing ? ' cursor-not-allowed' : '')}
-              placeholder="e.g. I ate sushi 🍣"
+              placeholder={english ? 'e.g. I ate sushi 🍣' : 'お寿司を食べました 🍣'}
               maxLength={100}
               required
               autoFocus
@@ -75,7 +102,7 @@ export default function Home() {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
             ) : (
-              <span className="py-2">Cheer Up!</span>
+              <span className="py-2">{english ? 'Cheer Up!' : '応援して！'}</span>
             )}
             </button>
           </div>
@@ -89,7 +116,7 @@ export default function Home() {
               priority
             />
             <div className="mt-3 p-4 bg-red-50 relative rounded-lg before:content-[''] before:absolute before:-top-4 before:left-10 before:border-8 before:border-transparent before:border-b-8 before:border-b-red-50">
-              {result || 'Pleas tell me what did you do today.'}
+              {result || (english ? 'Tell me what did you do today.' : '今日はどんなことをしたの？')}
             </div>
           </div>
         </form>

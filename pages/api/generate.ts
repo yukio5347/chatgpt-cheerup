@@ -26,11 +26,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
+  const prompt = req.body.english ? "cheer up, encourage and motivate me!" : '応援して、励まして、やる気を出させてください！';
+
   try {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: "cheer up, encourage and motivate me!" },
+        { role: "system", content: prompt },
         { role: "user", content: message },
       ],
     });
